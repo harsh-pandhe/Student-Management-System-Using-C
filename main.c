@@ -56,6 +56,59 @@ void add_student(struct Student **head, struct Student *new_student)
     *head = new_student;
 }
 
+void delete_student(struct Student **head, int roll)
+{
+    struct Student *temp = *head;
+    struct Student *prev = NULL;
+    if (temp != NULL && temp->roll == roll)
+    {
+        *head = temp->next;
+        free(temp);
+        return;
+    }
+    while (temp != NULL && temp->roll != roll)
+    {
+        prev = temp;
+        temp = temp->next;
+    }
+    if (temp == NULL)
+    {
+        printf("Student not found\n");
+        return;
+    }
+    prev->next = temp->next;
+    free(temp);
+}
+
+void update_student(struct Student *head, int roll)
+{
+    struct Student *temp = head;
+    while (temp != NULL && temp->roll != roll)
+    {
+        temp = temp->next;
+    }
+    if (temp == NULL)
+    {
+        printf("Student with roll number %d not found.\n", roll);
+        return;
+    }
+    printf("Updating student with roll number %d\n", roll);
+    printf("Enter new name: ");
+    scanf("%s", temp->name);
+    printf("Enter new department: ");
+    scanf("%s", temp->dept);
+    printf("Enter new course: ");
+    scanf("%s", temp->course);
+    printf("Enter new year: ");
+    scanf("%s", temp->year);
+    printf("Enter new semester: ");
+    scanf("%s", temp->semester);
+    printf("Enter new email: ");
+    scanf("%s", temp->email);
+    printf("Enter new phone: ");
+    scanf("%s", temp->phone);
+}
+
 int main()
 {
     struct Student *head = NULL;
@@ -106,8 +159,14 @@ int main()
             choice = 0;
             break;
         case 3:
+            printf("Enter Roll to delete: ");
+            scanf("%d", &roll);
+            delete_student(&head, roll);
             break;
         case 4:
+            printf("Enter roll number to update: ");
+            scanf("%d", &roll);
+            update_student(head, roll);
             break;
         case 5:
             break;
